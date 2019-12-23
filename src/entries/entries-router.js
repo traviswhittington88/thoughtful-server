@@ -21,4 +21,5 @@ entriesRouter
       res.json(EntriesService.serializeEntry(res.entry))
     })
   
+module.exports = entriesRouter
   

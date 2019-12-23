@@ -36,14 +36,37 @@ describe.only('Auth endpoints', () => {
         user_name: testUser.user_name,
         password: testUser.password,
       }
-      it(`it responds 400 required error when ${field} is missing`, () => {
+      it(`responds 400 required error when ${field} is missing`, () => {
         delete loginAttemptBody[field]
         return supertest(app)
           .post('/api/auth/login')
           .expect(400, {
-            error: `Missing '${field}' in request body`
+            error: `Missing '${field}' in request`
           })
       })
-    })
+
+      it(`responds 400 'Incorrect user_name or password' when bad user_name`, () => {
+        const userInvalidUserName = { user_name: 'wrong-user', password: testUser.password }
+
+        return supertest(app)
+          .post('/api/auth/login')
+          .expect(400, {
+            error: `Incorrect user_name or password`
+          })
+      })
+
+      it(`responds 400 'Incorrect user_name or password' when bad password`, () => {
+        const userInvalidPass = { user_name: testUser.user_name, password: 'incorrect' }
+        return supertest(app)
+          .post('/api/auth/login')
+          .send(userInvalidPass)
+          .expect(400, {
+            error: `Incorrect user_name or password`
+          })
+      })
+
+      
+    }) 
+
   })
 })

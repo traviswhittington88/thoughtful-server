@@ -30,7 +30,15 @@ const EntriesService = {
     return db
       .where({ id })
       .update(newEntryFields)
-  } 
+  },
+  serializeEntry(entry) {
+    return {
+      id: entry.id,
+      title: xss(entry.title),
+      content: xss(entry.content),
+      date_created: new Date(entry.date_created),
+    }
+  }
 }
 
 module.exports = EntriesService

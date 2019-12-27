@@ -1,4 +1,5 @@
 const express = require('express')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const journalsRouter = express.Router()
 const jsonBodyParser = express.json()

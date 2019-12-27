@@ -1,6 +1,6 @@
 const express = require('express')
 const EntriesService = require('../entries/entries-service')
-const { requireAuth } = require('../middleware/basic-auth')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const entriesRouter = express.Router()
 

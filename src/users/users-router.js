@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const UsersService = require('../users/users-service')
 
 const usersRouter = express.Router()
@@ -34,7 +35,15 @@ usersRouter
             error: `Username already taken`
           })
         }
-        res.send('ok')
+        res.status(201)
+          .location(`/api/users/whatever`)
+          .json({
+            id: 'whatever',
+            user_name,
+            full_name,
+            nickname: nickname || '',
+            date_created: Date.now(),
+          })
       })
       .catch(next)
     }

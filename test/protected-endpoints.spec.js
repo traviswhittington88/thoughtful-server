@@ -4,7 +4,7 @@ const helpers = require('./test-helpers')
 const app = require('../src/app')
 
 
-describe.only(`Protected endpoints`, () => {
+describe(`Protected endpoints`, () => {
   let db
 
   const {
@@ -54,27 +54,20 @@ describe.only(`Protected endpoints`, () => {
           .expect(401, { error: `Missing bearer token` })
       })
 
-      it(`responds 401 'Unauthorized request' when no credentials in token`, () => {
-        const userNoCreds = { user_name: '', password: '' }
+      it(`responds 401 'Unauthorized request' when invalid JTW secret in token`, () => {
+        const validUser = testUsers[0]
+        const invalidSecret = 'bad-secret'
         return supertest(app)
         .get(endpoint.path)
-        .set('Authorization', helpers.makeAuthHeader(userNoCreds))
-        .expect(401, { error: `Unauthorized request` })
+        .set('Authorization', helpers.makeAuthHeader(validUser, invalidSecret))  //token made by service based on bad secret
+        .expect(401, { error: `Unauthorized request` })  //comes from jwt-auth middleware
       })
 
-      it(`responds 401 'Unauthorized request' when invalid user`, () => {
-        const userInvalidCreds = { user_name: 'user-not', password: 'existy' }
+      it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
+        const invalidUser = { user_name: 'user-not', id: 1 }
         return supertest(app)
           .get(endpoint.path)
-          .set('Authorization', helpers.makeAuthHeader(userInvalidCreds))
-          .expect(401, { error: 'Unauthorized request' })
-      })
-
-      it(`responds 401 'Unauthorized request' when invalid password`, () => {
-        const userInvalidPass = { user_name: testUsers[0].user_name, password: 'wrong' }
-        return supertest(app)
-          .get(endpoint.path)
-          .set('Authorization', helpers.makeAuthHeader(userInvalidPass))
+          .set('Authorization', helpers.makeAuthHeader(invalidUser))
           .expect(401, { error: 'Unauthorized request' })
       })
     })

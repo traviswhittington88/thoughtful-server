@@ -1,4 +1,5 @@
 const express = require('express')
+const UsersService = require('../users/users-service')
 
 const usersRouter = express.Router()
 const jsonBodyParser = express.json()
@@ -14,6 +15,28 @@ usersRouter
           error: `Missing ${field} in response body`, 
         })
       }
+    
+    const passwordError = UsersService.verifyPassword(password)
+
+    if (passwordError) {
+      return res.status(400).json({
+        error: passwordError
+      })
+    }
+
+    UsersService.hasUserWithUserName(
+      req.app.get('db'),
+      user_name
+    )
+      .then(hasUserWithUserName => {
+        if (hasUserWithUserName) {
+          return res.status(400).json({
+            error: `Username already taken`
+          })
+        }
+        res.send('ok')
+      })
+      .catch(next)
     }
   })
 

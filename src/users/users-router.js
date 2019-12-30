@@ -36,7 +36,7 @@ usersRouter
           })
         }
         res.status(201)
-          .location(`/api/users/whatever`)
+          .location(path.posix.join(req.originalUrl,`/api/users/whatever`))
           .json({
             id: 'whatever',
             user_name,

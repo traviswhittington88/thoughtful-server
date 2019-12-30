@@ -35,15 +35,27 @@ usersRouter
             error: `Username already taken`
           })
         }
-        res.status(201)
-          .location(path.posix.join(req.originalUrl,`/api/users/whatever`))
-          .json({
-            id: 'whatever',
-            user_name,
-            full_name,
-            nickname: nickname || '',
-            date_created: Date.now(),
-          })
+          return UsersService.hashPassword(password)
+            .then(hashedPassword => {
+              const newUser = {
+                user_name,
+                password: hashedPassword,
+                full_name,
+                nickname,
+                date_created: 'now()',
+              }
+              return UsersService.insertUser(
+                req.app.get('db'),
+                newUser
+              )
+                .then(user => {
+                  res
+                    .status(201)
+                    .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                    .json(UsersService.serializeUser(user))
+                })
+            })
+      
       })
       .catch(next)
     }

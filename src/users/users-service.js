@@ -22,6 +22,13 @@ const UsersService = {
       .first()
       .then(user => !!user)
   },
+  insertUser(db, newUser) {
+    return db
+      .insert(newUser)
+      .into('thoughtful_users')
+      .returning('*')
+      .then(([user]) => user)
+  },
 }
 
 module.exports = UsersService

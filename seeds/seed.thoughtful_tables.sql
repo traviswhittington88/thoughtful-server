@@ -42,3 +42,4 @@ INSERT INTO thoughtful_entries (title, content, journal_id)
 
 
 
+COMMIT;

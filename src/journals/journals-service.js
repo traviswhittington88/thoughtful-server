@@ -35,7 +35,7 @@ const JournalsService = {
     return {
       id: journal.id,
       title: xss(journal.title),
-      date_created: new Date(entry.date_created),
+      date_created: new Date(journal.date_created),
     }
   }
 }

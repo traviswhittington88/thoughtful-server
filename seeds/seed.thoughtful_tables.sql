@@ -2,27 +2,43 @@ BEGIN;
 
 TRUNCATE 
   thoughtful_entries,
-  thoughtful_folders,
+  thoughtful_journals,
   thoughtful_users
   RESTART IDENTITY CASCADE;
 
-INSERT INTO thoughtful_users (user_name, name, pseudoynm, password)
+INSERT INTO thoughtful_journals (title)
+  VALUES
+    ('Sam Says'),
+    ('Elmers Woes'),
+    ('Work Life'),
+    ('A Bugs Life'),
+    ('Bat News'),
+    ('Cab Thoughts'),
+    ('Jokers Jokes'),
+    ('Goals'),
+    ('Ideas'),
+    ('Personal');
+
+
+INSERT INTO thoughtful_users (user_name, full_name, password, pseudonym)
   VALUES
     ('wonderBoy88', 'Sam Wonder', 'kid wonder', '$2a$12$mkcQQHtqa5iNRCwJNx1iUOBd58vEaf/nfUeOvtps.zFTwbneDPWtO'),
     ('travisty40', 'Travis Bickle', 'Taxi Driver', '$2a$12$vi7HDAeW3THNNs9lqLxBvuHkZkfoFr6/ug172oPGRHAvLAgYMOrf.'),
     ('DarkKnight', 'Bruce Wayne', 'Batman', '$2a$12$jRKhYey2/B51qGG0RktziuYtJdWoomePiR7YSOGv6sfieH5mkloVe'),
-    ('JokerTime57', 'Joker', 'Mista J', '$2a$12$Sn0dg2jk6lq/n9s2uvSNLusKgTGWlLTbzdptyVfed5x6l5L2qWrea');
+    ('JokerTime57', 'Joker', 'Mista J', '$2a$12$Sn0dg2jk6lq/n9s2uvSNLusKgTGWlLTbzdptyVfed5x6l5L2qWrea'),
+    ('theBugs52', 'Bugs Bunny', 'Bugs', 'bugspassword'),
+    ('SamSays', 'Yosemite Sam', 'Semite', 'yosemitepassword'),
+    ('ohFudd', 'Elmer Fudd', 'Fudd', 'elmerfuddpassword');
 
-INSERT INTO thoughtful_entries (title, author_id, content)
+INSERT INTO thoughtful_entries (title, content, journal_id)
   VALUES 
-    ('My first journal entry', 1, "I don't know what to say!"),
-    ('You talkin to me?'. 2, "You must be talkin to me cuz I'm the only one around.."),
-    ('Where are they!', 3, "Seriously, it's hurting me to talk in this voice"),
-    ('Fatman', 4, "If you're good at something, never do it for free.");
+    ('My first journal entry', 'I don''t know what to say!', 1),
+    ('You talkin to me?', 'You must be talkin to me cuz I''m the only one around..', 6),
+    ('Where are they!', 'Seriously, it''s hurting me to talk in this voice', 5),
+    ('Fatman', 'If you''re good at something, never do it for free.', 7),
+    ('Ah...what''s up doc?', 'Wow what a day! I managed to escape that dopey hunter Fudd, Yosemite GoofHead, and some other notoriously dumb antagonists! not to mention.. I got to eat several delicious carrots.',4),
+    ('Today was a bad day', 'Well where to begin? I blew myself up wit my own musket chasing dat twicky cawot eat''n, no good scwewy wabbit... guess I''ll twy again next week', 2),
+    ('Toot''n Hoot''n and Son of a Shoot''n', 'I''m the meanest, roughest, toughest hombre that''s ever crossed the Rio Grande - and I ain''t o namby-bamby! I''m the hootin''est, tootin''est, shootin''est, bob-tail wildcat, in the west! I''m the fastest gun north, south, east, aaaaaaaand west of the Pecos! When I say whoa, I mean whoa!', 1);
 
-INSERT INTO thoughtful_folders (name)
-  VALUES
-    ('Thoughts'),
-    ('Goals'),
-    ('Ideas'),
-    ('Personal');
+
+

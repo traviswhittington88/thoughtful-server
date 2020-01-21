@@ -3,7 +3,7 @@ const xss = require('xss')
 const EntriesService = {
   getAllEntries(db) {
     return db
-      .from('thoughtful_entries AS ent')
+      .from('thoughtful_entries')
       .select('*')
   },
   getById(db, id) {

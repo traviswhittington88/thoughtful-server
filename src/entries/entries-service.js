@@ -43,6 +43,7 @@ const EntriesService = {
       id: entry.id,
       title: xss(entry.title),
       content: xss(entry.content),
+      pseudonym: xss(entry.pseudonym),
       journal_id: entry.journal_id,
       date_created: new Date(entry.date_created),
     }

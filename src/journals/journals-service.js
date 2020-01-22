@@ -22,12 +22,12 @@ const JournalsService = {
       })
   },
   deleteJournal(db, id) {
-    return db
+    return db('thoughtful_journals')
       .where({ id })
       .delete()
   },
   updateJournal(db, id, newJournalFields) {
-    return db
+    return db('thoughtful_journals')
       .where({ id })
       .update(newJournalFields)
   },

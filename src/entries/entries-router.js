@@ -74,10 +74,30 @@ entriesRouter
       .catch(next)
     })
     .patch(jsonBodyParser, (req, res, next) => {
-      
-    })
+      const { title, modified, content } = req.body
+      const updatedEntry = { name, modified, content }
 
-  
+      const numOfValues = Object.values(updatedEntry).filter(Boolean).length
+
+      if (numOfValues === 0) {
+          res.status(400).json({
+              error: {
+                  message: `Request body must be one of 'name', 'modified' or 'content'`
+              }
+          })
+      }
+
+      EntriesService.updateNote(
+          req.app.get('db'),
+          req.params.note_id,
+          updatedNote
+      )
+      .then(numOfRowsAffected => {
+          res.status(204).end()
+      })
+      .catch(next)
+  })
+
   
 module.exports = entriesRouter
   

@@ -8,6 +8,7 @@ const EntriesService = {
   },
   getById(db, id) {
     return db
+      .select('*')
       .from('thoughtful_entries')
       .where({ id })
       .first()
@@ -22,7 +23,7 @@ const EntriesService = {
       })
   },
   deleteEntry(db, id) {
-    return db
+    return db('thoughtful_entries')
       .where({ id })
       .delete()
   },

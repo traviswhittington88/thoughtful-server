@@ -6,6 +6,12 @@ const EntriesService = {
       .from('thoughtful_entries')
       .select('*')
   },
+  getEntriesByJournalId(db, journal_id) {
+    return db
+      .from('thoughtful_entries')
+      .select('*')
+      .where({ journal_id })
+  },
   getById(db, id) {
     return db
       .select('*')
@@ -37,6 +43,7 @@ const EntriesService = {
       id: entry.id,
       title: xss(entry.title),
       content: xss(entry.content),
+      journal_id: entry.journal_id,
       date_created: new Date(entry.date_created),
     }
   }

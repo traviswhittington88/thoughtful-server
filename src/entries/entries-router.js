@@ -26,6 +26,8 @@ entriesRouter
         })
     }
 
+    pseudonym = req.body
+
     EntriesService.insertEntry(
       req.app.get('db'),
       newEntry
@@ -98,6 +100,19 @@ entriesRouter
       .catch(next)
   })
 
+entriesRouter
+    .route('/journal/:journal_id')
+    //.all(requireAuth)
+    .get((req, res, next) => {
+      EntriesService.getEntriesByJournalId(
+        req.app.get('db'),
+        req.params.journal_id
+      )
+      .then(entries => {
+        res.json(entries.map(EntriesService.serializeEntry))
+      })
+      .catch(next)
+  })
   
 module.exports = entriesRouter
   

@@ -34,7 +34,7 @@ const JournalsService = {
   serializeJournal(journal) {
     return {
       id: journal.id,
-      title: xss(journal.title),
+      name: xss(journal.name),
       date_created: new Date(journal.date_created),
     }
   }

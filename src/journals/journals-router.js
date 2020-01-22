@@ -16,8 +16,8 @@ journalsRouter
       .catch(next)
   })
   .post(jsonBodyParser, (req, res, next) => {
-    const { title } = req.body
-    const newJournal = { title }
+    const { name } = req.body
+    const newJournal = { name }
 
     for (const[key, value] of Object.entries(newJournal)) {
         if(value == null) {
@@ -75,15 +75,15 @@ journalsRouter
       .catch(next)
   })
   .patch(jsonBodyParser,(req, res, next) => {
-      const { title } = req.body
-      const updatedjournal = { title }
+      const { name } = req.body
+      const updatedjournal = { name }
 
       const numOfValues = Object.values(updatedjournal).filter(Boolean).length
 
       if (numOfValues === 0) {
           res.status(400).json({
               error: {
-                  message: `Request body must contain 'title'`
+                  message: `Request body must contain 'name'`
               }
           })
       }x

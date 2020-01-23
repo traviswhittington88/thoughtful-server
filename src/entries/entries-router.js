@@ -16,7 +16,7 @@ entriesRouter
       .catch(next)
   })
   .post(jsonBodyParser, (req, res, next) => {
-    const { title, content, journal_id } = req.body
+    const { title, content, pseudonym, journal_id } = req.body
     const newEntry = { title, content, journal_id } 
 
     for (const [key, value] of Object.entries(newEntry)) {
@@ -26,7 +26,7 @@ entriesRouter
         })
     }
 
-    pseudonym = req.body
+    newEntry.pseudonym = pseudonym
 
     EntriesService.insertEntry(
       req.app.get('db'),

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 const helpers = require('./test-helpers')
 const app = require('../src/app')
 
-describe.only('Auth endpoints', () => {
+describe('Auth endpoints', () => {
   let db
   const { testUsers } = helpers.makeThoughtsFixtures()
   const testUser = testUsers[0]
@@ -11,7 +11,7 @@ describe.only('Auth endpoints', () => {
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
-      connection: process.env.TEST_DB_URL,
+      connection: process.env.TEST_DATABASE_URL,
     })
     app.set('db', db)
   })
@@ -41,16 +41,19 @@ describe.only('Auth endpoints', () => {
         delete loginAttemptBody[field]
         return supertest(app)
           .post('/api/auth/login')
+          .send(loginAttemptBody)
           .expect(400, {
-            error: `Missing '${field}' in request`
+            error: `Missing '${field}' in request body`
           })
       })
+    })
 
       it(`responds 400 'Incorrect user_name or password' when bad user_name`, () => {
         const userInvalidUserName = { user_name: 'wrong-user', password: testUser.password }
 
         return supertest(app)
           .post('/api/auth/login')
+          .send(userInvalidUserName)
           .expect(400, {
             error: `Incorrect user_name or password`
           })
@@ -80,7 +83,7 @@ describe.only('Auth endpoints', () => {
           }
         )
         return supertest(app)
-          .post('api/auth/login')
+          .post('/api/auth/login')
           .send(userValidCreds)
           .expect(200, {
             authToken: expectedToken
@@ -113,7 +116,8 @@ describe.only('Auth endpoints', () => {
         .set('Authorization', helpers.makeAuthHeader(testUser))
         .expect(200, {
           authToken: expectedToken,
-        })
-    })
-  })
+        }) 
+    }) 
 })
+  
+

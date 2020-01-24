@@ -1,17 +1,17 @@
-const knex = requrie('knex')
+const knex = require('knex')
 const bcrypt = require('bcryptjs') //to test passwords were successfully hashed
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe.only('Users endpoints', function() {
+describe('Users endpoints', function() {
   let db
-  const { testUsers } = helper.makeEntriesFixtures()
+  const { testUsers } = helpers.makeThoughtsFixtures()
   const testUser = testUsers[0]
 
   before('make knex instance', () => {
     db = knex({
       client: 'pg',
-      connection: process.env.TEST_DB_URL,
+      connection: process.env.TEST_DATABASE_URL,
     })
     app.set('db', db)
   })

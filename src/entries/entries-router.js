@@ -76,10 +76,11 @@ entriesRouter
       .catch(next)
     })
     .patch(jsonBodyParser, (req, res, next) => {
-      const { title, modified, content } = req.body
-      const updatedEntry = { name, modified, content }
-
+      const { title, content, pseudonym } = req.body
+      const updatedEntry = { title, content, pseudonym }
+      console.log('updatedEntry', updatedEntry)
       const numOfValues = Object.values(updatedEntry).filter(Boolean).length
+      console.log(numOfValues)
 
       if (numOfValues === 0) {
           res.status(400).json({
@@ -88,11 +89,11 @@ entriesRouter
               }
           })
       }
-
-      EntriesService.updateNote(
+      console.log('id', req.params.entry_id)
+      EntriesService.updateEntry(
           req.app.get('db'),
-          req.params.note_id,
-          updatedNote
+          req.params.entry_id,
+          updatedEntry
       )
       .then(numOfRowsAffected => {
           res.status(204).end()

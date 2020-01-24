@@ -34,7 +34,7 @@ const EntriesService = {
       .delete()
   },
   updateEntry(db, id, newEntryFields) {
-    return db
+    return db('thoughtful_entries')
       .where({ id })
       .update(newEntryFields)
   },

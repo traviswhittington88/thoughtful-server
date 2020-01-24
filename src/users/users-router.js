@@ -7,8 +7,10 @@ const jsonBodyParser = express.json()
 
 usersRouter
   .post('/', jsonBodyParser, (req, res, next) => {
-    const { user_name, full_name, password } = req.body
-    const newUser = { user_name, full_name, password }
+    const { user_name, full_name, pseudonym, password } = req.body
+    const newUser = { user_name, full_name, pseudonym, password }
+
+    console.log(newUser)
 
     for (const field of ['user_name', 'full_name', 'password']) {
       if (!req.body[field]) {
@@ -16,6 +18,7 @@ usersRouter
           error: `Missing ${field} in response body`, 
         })
       }
+      
     
     const passwordError = UsersService.verifyPassword(password)
 
@@ -41,7 +44,7 @@ usersRouter
                 user_name,
                 password: hashedPassword,
                 full_name,
-                nickname,
+                pseudonym,
                 date_created: 'now()',
               }
               return UsersService.insertUser(

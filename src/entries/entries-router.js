@@ -43,7 +43,7 @@ entriesRouter
 
   entriesRouter
     .route('/:entry_id')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
       EntriesService.getById(
         req.app.get('db'),
@@ -78,10 +78,7 @@ entriesRouter
     .patch(jsonBodyParser, (req, res, next) => {
       const { title, content, pseudonym } = req.body
       const updatedEntry = { title, content, pseudonym }
-      console.log('updatedEntry', updatedEntry)
       const numOfValues = Object.values(updatedEntry).filter(Boolean).length
-      console.log(numOfValues)
-
       if (numOfValues === 0) {
           res.status(400).json({
               error: {
@@ -89,7 +86,6 @@ entriesRouter
               }
           })
       }
-      console.log('id', req.params.entry_id)
       EntriesService.updateEntry(
           req.app.get('db'),
           req.params.entry_id,
@@ -103,7 +99,7 @@ entriesRouter
 
 entriesRouter
     .route('/journal/:journal_id')
-    //.all(requireAuth)
+    .all(requireAuth)
     .get((req, res, next) => {
       EntriesService.getEntriesByJournalId(
         req.app.get('db'),

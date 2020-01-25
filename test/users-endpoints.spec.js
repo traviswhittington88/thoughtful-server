@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs') //to test passwords were successfully hashed
 const app = require('../src/app')
 const helpers = require('./test-helpers')
 
-describe('Users endpoints', function() {
+describe.only('Users endpoints', function() {
   let db
   const { testUsers } = helpers.makeThoughtsFixtures()
   const testUser = testUsers[0]
@@ -31,14 +31,14 @@ describe('Users endpoints', function() {
         )
       })
 
-      const requiredFields = ['user_name', 'full_name', 'password']
+      const requiredFields = ['full_name', 'user_name', 'pseudonym', 'password']
 
       requiredFields.forEach(field => {
         const registerAttemptBody = {
-          user_name: 'test user_name',
-          full_name: 'test full_name',
-          pseudonym: 'test pseudonym',
-          password: 'test password',
+          full_name: 'full_name',
+          user_name: 'user_name',
+          pseudonym: 'pseudonym',
+          password: 'password',
         }
 
         it(`responds with 400 required error when ${field} is missing`, () => {
@@ -56,6 +56,7 @@ describe('Users endpoints', function() {
       it(`responds 400 and 'Password must be at least 8 characters' when password short`, () => {
         const userShortPass = {
           user_name: 'test user_name',
+          pseudonym: 'pseudonym',
           password: '1234567',
           full_name: 'test full_name'
         }
@@ -71,12 +72,13 @@ describe('Users endpoints', function() {
       it(`responds 400 and 'Password must be less than 73 characters' when password long`, () => {
         const userLongPass = {
           user_name: 'test user_name',
+          pseudonym: 'pseudonyn',
           password: '*'.repeat(73),
           full_name: 'test full_name',
         }
 
         return supertest(app)
-          .post('api/users')
+          .post('/api/users')
           .send(userLongPass)
           .expect(400, {
             error: `Password must be less than 73 characters`,
@@ -86,6 +88,7 @@ describe('Users endpoints', function() {
       it(`responds 400 error when password starts with spaces`, () => {
         const userPasswordStartsSpaces = {
           user_name: 'test user_Name',
+          pseudonym: 'pseudonym',
           full_name: 'test full_name',
           password: '  11AAaa!!',
         }
@@ -99,7 +102,8 @@ describe('Users endpoints', function() {
 
       it(`responds with 400 error when password ends with spaces`, () => {
         const userPasswordEndsSpaces = {
-          user_name: 'test user_name', 
+          user_name: 'test user_name',
+          pseudonym: 'psuedonym',
           full_name: 'test full_name',
           password: 'aa!!BB1234 ',
         }
@@ -114,6 +118,7 @@ describe('Users endpoints', function() {
       it(`responds 400 error when password isn't complex enought`, () => {
         const userPasswordNotComplex = {
           user_name: 'test user_name',
+          pseudonym: 'pseudonym',
           full_name: 'test full_Name',
           password: '11AAaabb',
         }
@@ -128,8 +133,9 @@ describe('Users endpoints', function() {
       it(`responds 400 'User name already taken' when user_name isn't unique`, () => {
         const duplicateUser = {
           user_name: testUser.user_name,
+          pseudonym: 'pseudonym',
           full_name: 'test full_name',
-          password: 'test password',
+          password: 'aaAA11!!',
         }
         return supertest(app)
           .post('/api/users')
@@ -141,10 +147,11 @@ describe('Users endpoints', function() {
 
     })
 
-    context(`Happy path`, () => {
+    context.only(`Happy path`, () => {
       it(`responds 201, serialized user, storing bcrypted password`,() => {
         const newUser = {
           user_name: 'test user_name',
+          pseudonym: 'pseudonym',
           password: 'AAaa11!!',
           full_name: 'test full_name',
         }
@@ -156,7 +163,7 @@ describe('Users endpoints', function() {
             expect(res.body).to.have.property('id')
             expect(res.body.user_name).to.eql(newUser.user_name)
             expect(res.body.full_name).to.eql(newUser.full_name)
-            expect(res.body.nickname).to.eql('')
+            expect(res.body.pseudonym).to.eql(newUser.pseudonym)
             expect(res.body).to.not.have.property('password')
             expect(res.headers.location).to.eql(`/api/users/${res.body.id}`)
             const expectedDate = new Date().toLocaleString('en', { timeZone: 'UTC' })

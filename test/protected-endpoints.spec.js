@@ -4,7 +4,7 @@ const helpers = require('./test-helpers')
 const app = require('../src/app')
 
 
-describe.only(`Protected endpoints`, () => {
+describe(`Protected endpoints`, () => {
   let db
 
   const {
@@ -54,7 +54,7 @@ describe.only(`Protected endpoints`, () => {
           .expect(401, { error: `Missing bearer token` })
       })
 
-      it.skip(`responds 401 'Unauthorized request' when invalid JTW secret in token`, () => {
+      it(`responds 401 'Unauthorized request' when invalid JTW secret in token`, () => {
         const validUser = testUsers[0]
         const invalidSecret = 'bad-secret'
         return supertest(app)
@@ -63,7 +63,7 @@ describe.only(`Protected endpoints`, () => {
         .expect(401, { error: `Unauthorized request` })  //comes from jwt-auth middleware
       })
 
-      it.skip(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
+      it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
         const invalidUser = { user_name: 'user-not', id: 1 }
         return supertest(app)
           .get(endpoint.path)

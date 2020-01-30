@@ -1,4 +1,4 @@
-# Thoughtful Rest API
+# Thoughtful API
 
 This is an Express server contained within the NodeJS infrastructure that handles authentication and routing requests to a PostgreSQL database that houses data for the entire Thoughtful application. 
 

@@ -101,7 +101,28 @@ returns status 404 not found response object
 
     {"status":404,"reason":"Not found"}
     
-    
+## Change an entry
+
+### Request
+
+`PATCH /api/entries/:entryid`
+
+    curl -i -H 'Accept: application/json' -X PUT -d 'title=Foo&status=patchedentry' http://localhost:7000/api/entries/1
+
+### Response
+
+returns status 200 (ok) and edited entry object
+
+    {
+      "id":1,
+      "title":"EditedFoo",
+      "content": "patched content", 
+      "pseudonym": "Sam Says", 
+      "journal_id": "3", 
+      "date_created":"2020-01-30T03:28:00.449Z"
+    }
+
+
 ## Delete an entry
 
 ### Request
@@ -183,25 +204,5 @@ returns status 200 (ok) and journal object
 
 
 
-## Change an entry
-
-### Request
-
-`PATCH /api/entries/:entryid`
-
-    curl -i -H 'Accept: application/json' -X PUT -d 'title=Foo&status=patchedentry' http://localhost:7000/api/entries/1
-
-### Response
-
-returns status 200 (ok) and edited entry object
-
-    {
-      "id":1,
-      "title":"EditedFoo",
-      "content": "patched content", 
-      "pseudonym": "Sam Says", 
-      "journal_id": "3", 
-      "date_created":"2020-01-30T03:28:00.449Z"
-    }
 
 

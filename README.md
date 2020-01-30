@@ -47,7 +47,7 @@ The response for all entries will be an array of entry objects in json format
 
 ### Request
 
-`POST /api/entry`
+`POST /api/entries`
 
     curl -i -H 'Accept: application/json' -d 'title=Foo&content=new&pseudonym=catinthehat&journal_id=2'        http://localhost:7000/api/entries
 
@@ -69,9 +69,9 @@ returns status 201 and new entry object
 
 ### Request
 
-`GET /api/entry/id`
+`GET /api/entries/:entryid`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/entry/1
+    curl -i -H 'Accept: application/json' http://localhost:7000/entries/1
 
 ### Response
 
@@ -91,9 +91,9 @@ returns status 200 and entry object
 
 ### Request
 
-`GET /api/entry/id`
+`GET /api/entries/:entryid`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/entry/9999
+    curl -i -H 'Accept: application/json' http://localhost:7000/entries/9999
 
 ### Response
 
@@ -154,9 +154,9 @@ The response for all journals will be an array of journal objects in json format
 
 ### Request
 
-`POST /api/journal`
+`POST /api/journals`
 
-    curl -i -H 'Accept: application/json' -d 'name=newJournal' http://localhost:7000/api/journal
+    curl -i -H 'Accept: application/json' -d 'name=newJournal' http://localhost:7000/api/journals
 
 ### Response
 
@@ -172,9 +172,8 @@ responds with 201 (created) status and journal object
 
 `GET /api/journals/:journal_id`
 
-    curl -i -H 'Accept: application/json' http://localhost:7000/api/journal/1
+    curl -i -H 'Accept: application/json' http://localhost:7000/api/journals/1
     
-    curl -i -H 'Accept: application/json' -X PUT http://localhost:7000/thing/1/status/changed
 
 ### Response
 

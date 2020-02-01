@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS thoughtful_entries;
+DROP TABLE IF EXISTS thoughtful_users;

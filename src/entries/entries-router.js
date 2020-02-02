@@ -76,17 +76,16 @@ entriesRouter
             error: {
               message: `Sorry that entry does not belong to you!`
             }
-          }).end()
-        }
-
-        EntriesService.deleteEntry(
-          req.app.get('db'),
-          req.params.entry_id
-        )
-        .then(numOfRowsAffected => {
-          res.status(204).end()
-        })
-          next()
+          })
+        } else {
+            EntriesService.deleteEntry(
+              req.app.get('db'),
+              req.params.entry_id
+            )
+            .then(numOfRowsAffected => {
+            res.status(204).end()
+            })
+          }
       })
       .catch(next)
     })

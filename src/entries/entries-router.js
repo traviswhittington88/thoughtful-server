@@ -90,7 +90,7 @@ entriesRouter
       .catch(next)
     })
     .patch(jsonBodyParser, (req, res, next) => {
-      const { title, content, pseudonym } = req.body
+      const { title, content, pseudonym, user_id } = req.body
       const updatedEntry = { title, content, pseudonym }
       const numOfValues = Object.values(updatedEntry).filter(Boolean).length
       if (numOfValues === 0) {
@@ -100,15 +100,30 @@ entriesRouter
               }
           })
       }
-      EntriesService.updateEntry(
-          req.app.get('db'),
-          req.params.entry_id,
-          updatedEntry
+
+      EntriesService.getById(
+        req.app.get('db'),
+        req.params.entry_id
       )
-      .then(numOfRowsAffected => {
-          res.status(204).end()
+      .then(entry => {
+        if (entry.user_id.toString() !== user_id.toString()) {
+          res.status(400).json({ 
+            error: {
+              message: `Sorry that entry does not belong to you!`
+            }
+          })
+        } else {
+          EntriesService.updateEntry(
+            req.app.get('db'),
+            req.params.entry_id,
+            updatedEntry
+          )
+          .then(numOfRowsAffected => {
+            res.status(204).end()
+          })
+        }
       })
-      .catch(next) 
+      .catch(next)  
     })
 
 entriesRouter

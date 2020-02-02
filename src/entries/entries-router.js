@@ -16,8 +16,8 @@ entriesRouter
       .catch(next)
   })
   .post(jsonBodyParser, (req, res, next) => {
-    const { title, content, pseudonym, journal_id } = req.body
-    const newEntry = { title, content, journal_id } 
+    const { title, content, pseudonym, journal_id, user_id } = req.body
+    const newEntry = { title, content, journal_id, user_id } 
 
     for (const [key, value] of Object.entries(newEntry)) {
       if (value == null)

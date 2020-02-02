@@ -66,7 +66,25 @@ entriesRouter
       res.json(EntriesService.serializeEntry(res.entry))
     })
     .delete((req, res, next) => {
-      EntriesService.deleteEntry(
+      EntriesService.getById(
+        req.app.get('db'),
+        req.params.entry_id
+      )
+      .then(entry => {
+        if (entry.user_id.toString() !== req.get('user_id').toString()) {
+          res.status(400).json({ 
+            error: {
+              message: `Sorry that entry does not belong to you!`
+            }
+          })
+        } else {
+          res.status(204).send('Entry deleted')
+        }
+        next()
+      })
+      .catch(next)
+
+      /*EntriesService.deleteEntry(
         req.app.get('db'),
         req.params.entry_id
       )
@@ -94,7 +112,7 @@ entriesRouter
       .then(numOfRowsAffected => {
           res.status(204).end()
       })
-      .catch(next)
+      .catch(next) */
   })
 
 entriesRouter

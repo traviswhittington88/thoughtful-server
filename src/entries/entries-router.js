@@ -77,19 +77,16 @@ entriesRouter
               message: `Sorry that entry does not belong to you!`
             }
           })
-        } else {
-          res.status(204).send('Entry deleted')
         }
-        next()
-      })
-      .catch(next)
 
-      /*EntriesService.deleteEntry(
-        req.app.get('db'),
-        req.params.entry_id
-      )
-      .then(numOfRowsAffected => {
-        res.status(204).end()
+        EntriesService.deleteEntry(
+          req.app.get('db'),
+          req.params.entry_id
+        )
+        .then(numOfRowsAffected => {
+          res.status(204).end()
+        })
+          next()
       })
       .catch(next)
     })
@@ -112,8 +109,8 @@ entriesRouter
       .then(numOfRowsAffected => {
           res.status(204).end()
       })
-      .catch(next) */
-  })
+      .catch(next) 
+    })
 
 entriesRouter
     .route('/journal/:journal_id')
@@ -127,7 +124,7 @@ entriesRouter
         res.json(entries.map(EntriesService.serializeEntry))
       })
       .catch(next)
-  })
+    })
   
 module.exports = entriesRouter
   

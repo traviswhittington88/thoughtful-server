@@ -76,7 +76,7 @@ entriesRouter
             error: {
               message: `Sorry that entry does not belong to you!`
             }
-          })
+          }).end()
         }
 
         EntriesService.deleteEntry(
